@@ -101,7 +101,10 @@
   window.addEventListener('keydown', keydownPlayerCallback);
 
   function cheatDrumBeat() {
+    // each beat in ms, 500 = .5s
     const beatInterval = 500;
+
+    // reference keyCodes to drum sounds
     const drumKitMap = {
       clap: 65,
       hihat: 83,
@@ -113,10 +116,9 @@
       tom: 75,
       tink: 76,
     };
+
     // do the drumbeat
     setInterval(() => {
-      // play hihat every time
-
       if (eightStepCount != 0 && eightStepCount % 3 === 0) {
         // play fill
         switch (beatStep) {
@@ -152,6 +154,7 @@
             break;
         }
       } else {
+        // play hihat every time
         playItem(drumKitMap.hihat);
 
         switch (beatStep) {
