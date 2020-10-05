@@ -58,7 +58,135 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  let beatStep = 1;
+  let eightStepCount = 0;
 
+  function keydownPlayerCallback(event) {
+    playItem(event.keyCode);
+
+    if (event.keyCode === 191) { // key ? /
+      cheatDrumBeat();
+    }
+  }
+
+  function clickPlayerCallback() {
+    playItem(this.dataset.key);
+  }
+
+  function removeTransition(event) {
+    if (event.propertyName === 'transform') {
+      this.classList.remove('playing');
+    }
+  }
+
+  function playItem(keyCode) {
+    const key = document.querySelector(`.key[data-key="${keyCode}"]`);
+
+    const audio = document.querySelector(`audio[data-key="${keyCode}"]`);
+    if (!audio || !keyCode) return;
+    const newAudio = new Audio(audio.src);
+    newAudio.play();
+    key.classList.add('playing');
+  }
+
+  const keys = document.querySelectorAll('.key');
+  
+  keys.forEach((key) => {
+    key.addEventListener('transitionend', removeTransition)
+    key.onclick = clickPlayerCallback;
+  });
+
+  window.addEventListener('keydown', keydownPlayerCallback);
+
+  function cheatDrumBeat() {
+    const beatInterval = 500;
+    const drumKitMap = {
+      clap: 65,
+      hihat: 83,
+      kick: 68,
+      openhat: 70,
+      boom: 71,
+      ride: 72,
+      snare: 74,
+      tom: 75,
+      tink: 76,
+    };
+    // do the drumbeat
+    setInterval(() => {
+      // play hihat every time
+
+      if (eightStepCount != 0 && eightStepCount % 3 === 0) {
+        // play fill
+        switch (beatStep) {
+          case 1:
+            playItem(drumKitMap.snare);
+            break;
+          case 2:
+            playItem(drumKitMap.snare);
+            playItem(drumKitMap.clap);
+            break;
+          case 3:
+            playItem(drumKitMap.tom);
+            break;
+          case 4:
+            playItem(drumKitMap.tom);
+            playItem(drumKitMap.clap);
+            break;
+          case 5:
+            playItem(drumKitMap.kick);
+            break;
+          case 6:
+            playItem(drumKitMap.kick);
+            playItem(drumKitMap.clap);
+            break;
+          case 7:
+            playItem(drumKitMap.boom);
+            break;
+          case 8:
+            playItem(drumKitMap.boom);
+            playItem(drumKitMap.clap);
+            break;
+          default:
+            break;
+        }
+      } else {
+        playItem(drumKitMap.hihat);
+
+        switch (beatStep) {
+          case 1:
+            playItem(drumKitMap.kick);
+            break;
+          case 2:
+            break;
+          case 3:
+            playItem(drumKitMap.snare);
+            break;
+          case 4:
+            break;
+          case 5:
+            playItem(drumKitMap.kick);
+            break;
+          case 6:
+            break;
+          case 7:
+            playItem(drumKitMap.snare);
+            break;
+          case 8:
+            break;
+          default:
+            break;
+        }
+      }
+
+      // manage beatStep
+      if (beatStep === 8) {
+        eightStepCount = eightStepCount + 1;
+        beatStep = 1;
+      } else {
+        beatStep = beatStep + 1;
+      }
+    }, beatInterval);
+  }
 </script>
 
 
