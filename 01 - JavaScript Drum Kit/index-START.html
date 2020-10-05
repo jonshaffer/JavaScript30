@@ -58,6 +58,12 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // each beat in ms, 1000 = 1s
+  // bpm = 60000 / 180
+  const minute = 60000;
+  const bpm = 115;
+  const beatIntervalInMS = minute / bpm;
+
   // learned about eigths from:
   // https://www.youtube.com/watch?v=ondTlJEmPYA
   let beatStep = 1;
@@ -101,9 +107,6 @@
   window.addEventListener('keydown', keydownPlayerCallback);
 
   function cheatDrumBeat() {
-    // each beat in ms, 500 = .5s
-    const beatInterval = 500;
-
     // reference keyCodes to drum sounds
     const drumKitMap = {
       clap: 65,
@@ -190,7 +193,7 @@
       } else {
         beatStep = beatStep + 1;
       }
-    }, beatInterval);
+    }, beatIntervalInMS);
   }
 </script>
 
