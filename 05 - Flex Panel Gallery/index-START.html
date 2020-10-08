@@ -13,6 +13,12 @@
       font-family: 'helvetica neue';
       font-size: 20px;
       font-weight: 200;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
     
     body {
@@ -26,6 +32,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -43,6 +50,10 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -51,12 +62,21 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
-    /* Flex Children */
+    /* Flex Items */
     .panel > * {
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    .panel > *:first-child { transform: translateY(-100%); transition-delay: 0.7s; }
+    .panel.open > *:first-child { transform: translateY(0); transition-delay: 0.7s; }
+    .panel > *:last-child { transform: translateY(100%); transition-delay: 0.7s; }
+    .panel.open > *:last-child { transform: translateY(0); transition-delay: 0.7s; }
 
     .panel p {
       text-transform: uppercase;
@@ -70,9 +90,15 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
-
+    
+    @media only screen and (max-width: 600px) {
+      .panel p {
+        font-size: 1em;
+      }
+    }
   </style>
 
 
@@ -105,7 +131,15 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
 
+    function toggleOpen(event) {
+      this.classList.toggle('open');
+    }
+
+    panels.forEach(panel => {
+      panel.addEventListener('click', toggleOpen);
+    });
   </script>
 
 
