@@ -42,9 +42,23 @@
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
+  let perfArray = [];
+
+  function performanceAvg(newPerf) {
+    perfArray.push(newPerf);
+    let perfTotal = 0.0;
+
+    perfArray.forEach((perfRecord) => {
+      perfTotal += parseFloat(perfRecord);
+    });
+
+    console.log('Total performance average in ms: ', perfTotal / perfArray.length);
+  }
+
   function displayMatches() {
-    const regex = new RegExp(this.value, 'gi');
+    const t0 = performance.now();
     const matchArray = findMatches(this.value, cities);
+    const regex = new RegExp(this.value, 'gi');
     const html = matchArray.map(place => {
       const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
       const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
@@ -56,6 +70,8 @@
         </li>
       `;
     }).join('');
+    const t1 = performance.now();
+    performanceAvg((t1 - t0).toFixed(4));
 
     suggestions.innerHTML = html;
   }
