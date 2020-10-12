@@ -17,29 +17,68 @@
       p.style.fontSize = '50px';
     }
 
+    const p = document.querySelector('p');
+
     // Regular
+    console.log('hello');
 
     // Interpolated
+    console.log('hello i am a %s string!', 'doodoo');
 
     // Styled
+    console.log('%c i am some great text', 'font-size: 15px; color: red; text-shadow: 10px 10px 0 orange;');
 
     // warning!
+    console.warn('oh nooo!');
 
     // Error :|
+    console.error('this broke');
 
     // Info
+    console.info('cats are')
 
     // Testing
+    console.assert(1 === 1, '1 is not 1!');
+    console.assert(1 != 1, '1 is 1!');
 
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      console.log(`this is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.groupEnd(`${dog.name}`);
+    });
+    // dogs.forEach(dog => {
+    //   console.groupCollapsed(`${dog.name}`);
+    //   console.log(`this is ${dog.name}`);
+    //   console.log(`${dog.name} is ${dog.age} years old`);
+    //   console.groupEnd(`${dog.name}`);
+    // });
 
     // counting
+    console.count('is');
+    console.count('is');
+    console.count('is');
+    console.count('is');
 
     // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/jonshaffer')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+
+    // table
+    console.table(dogs);
 
   </script>
 </body>
